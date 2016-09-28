@@ -1,35 +1,30 @@
 'use strict';
 var generators = require('yeoman-generator'),
     _ = require('lodash'),
+    fs = require('fs'),
     chalk = require('chalk'),
     yosay = require('yosay');
 
 module.exports = generators.Base.extend({
-    constructor: function(){
+    constructor: function () {
         generators.Base.apply(this, arguments);
-        
-        this.argument('appname', { type: String, required: true });
-        this.appname = _.kebabCase(this.appname);
-        
-        this.option('includeutils', {
-           desc: 'Optionally includes Angular-UI Utils library.',
-           type: Boolean,
-           default: false 
-        });
     },
-    
-    initializing: function(){
-    },
-    prompting: function(){
-        this.log(yosay('Welcome to ' + 
-            chalk.yellow('YANG (Yet Another Angular)') + ' generator!'));
-            
-            var done = this.async();
-            this.prompt([{
+    prompting: function () {
+        this.log(yosay('Welcome to ' +
+            chalk.blue('Dynamic-NG Code') + ' Generator!'));
+
+        var done = this.async();
+        this.prompt([{
+            type: 'input',
+            name: 'appname',
+            message: ' Name Your application .. ',
+            default: this.config.get('appname') || 'app'
+        },
+            {
                 type: 'input',
                 name: 'ngappname',
                 message: 'Angular App Name (ng-app)',
-                default: 'app'
+                default: this.config.get('ngappname') || 'app'
             },
             {
                 type: 'checkbox',
@@ -50,117 +45,248 @@ module.exports = generators.Base.extend({
                         name: 'Angular-UI Utils',
                         value: 'angularuiutils',
                         checked: true
+                    },
+                    {
+                        name: 'angular-local-storage',
+                        value: 'angularLocalStorage',
+                        checked: true
+                    },
+                    {
+                        name: 'angular-translate',
+                        value: 'angularTranslate',
+                        checked: true
+                    },
+                    {
+                        name: 'angular-datatables',
+                        value: 'angularDatatable',
+                        checked: true
                     }
                 ]
-            }], function(answers){
-               this.log(answers);
-               this.ngappname = answers.ngappname;
-               this.includeLodash = _.includes(answers.jslibs, 'lodash');
-               this.includeMoment = _.includes(answers.jslibs, 'momentjs');
-               this.includeAngularUIUtils = _.includes(answers.jslibs, 'angularuiutils');               
-               done(); 
+            },
+            {
+                type: 'checkbox',
+                name: 'csslibs',
+                message: 'Which CSS framework would you like to use? ',
+                choices: [
+                    {
+                        name: 'BootStrap',
+                        value: 'bootstrap',
+                        checked: true
+                    },
+                    {
+                        name: 'Material Design ',
+                        value: 'materialdesign',
+                        checked: true
+                    }
+                ]},
+             {
+                type: 'list',
+                name: "installPackages",
+                message: "Run npm install and bower install?",
+                choices: ['Yes', 'No']
+            }], function (answers) {
+                this.config.set('ngappname', answers.ngappname);
+                this.config.save();
+
+                this.includeLodash = _.includes(answers.jslibs, 'lodash');
+                this.includeMoment = _.includes(answers.jslibs, 'momentjs');
+                this.includeAngularUIUtils = _.includes(answers.jslibs, 'angularuiutils');
+                this.includeAngularLocalStorage = _.includes(answers.jslibs, 'angularLocalStorage');
+                this.includeAngularTranslate = _.includes(answers.jslibs, 'angularTranslate');
+                this.includeAngularDatatable = _.includes(answers.jslibs, 'angularDatatable');
+                this.installPackages = answers.installPackages;
+                
+                done();
             }.bind(this));
-            
-    },
-    configuring: function(){
     },
     writing: {
-        gulpfile: function(){
+        gulpfile: function () {
             this.copy('_gulpfile.js', 'gulpfile.js');
             this.copy('_gulp.config.js', 'gulp.config.js');
             this.copy('jshintrc', '.jshintrc');
         },
 
-        packageJSON: function(){
+        packageJSON: function () {
             this.copy('_package.json', 'package.json');
         },
 
-        git: function(){
-            this.copy('gitignore', '.gitignore');
+        git: function () {
+            this.composeWith('common', {
+                options: {
+                    'skip-messages': true,
+                    gitignore: true,
+                    gitattributes: true,
+                    jshintrc: false,
+                    editorconfig: false,
+                    'test-jshintrc': false
+                }
+            });
         },
 
-        bower: function(){
+        bower: function () {
             var bowerJson = {
                 name: this.appname,
                 license: 'MIT',
-                dependencies: {}  
+                dependencies: {}
             };
             bowerJson.dependencies['angular'] = '~1.4.6';
             bowerJson.dependencies['angular-bootstrap'] = '~0.13.4';
             bowerJson.dependencies['angular-ui-router'] = '~0.2.15';
             bowerJson.dependencies['bootstrap-css-only'] = '~3.3.5';
-            if (this.includeLodash){
-                bowerJson.dependencies['lodash'] = '~3.10.1';                
+            bowerJson.dependencies['angular-mocks'] = '~1.4.7';
+            if (this.includeLodash) {
+                bowerJson.dependencies['lodash'] = '~3.10.1';
             }
-            if (this.includeMoment){
-                bowerJson.dependencies['moment'] = '~2.10.6';                
+            if (this.includeMoment) {
+                bowerJson.dependencies['moment'] = '~2.10.6';
             }
-            //if (this.options.includeutils){
-            if (this.includeAngularUIUtils){
+            if (this.includeAngularUIUtils) {
                 bowerJson.dependencies['angular-ui-utils'] = '~3.0.0';
             }
+            if (this.includeAngularLocalStorage) {
+                bowerJson.dependencies['angular-local-storage'] = '~0.2.3';
+            }
+            if (this.includeAngularTranslate) {
+                bowerJson.dependencies['angular-translate'] = '~2.8.1';
+            }
+            if (this.includeAngularDatatable) {
+                bowerJson.dependencies['angular-datatables'] = '~0.5.3';
+            }
             this.fs.writeJSON('bower.json', bowerJson);
-            
+
             this.copy('bowerrc', '.bowerrc');
         },
 
-        appStaticFiles: function(){
+        appStaticFiles: function () {
             this.copy('_favicon.ico', 'src/favicon.ico');
-            this.directory('styles', 'src/styles');
+            this.directory('styles', 'src/client/assets/css');
         },
 
-        scripts: function(){
+        scripts: function () {
             this.fs.copyTpl(
                 this.templatePath('app/_app.js'),
-                this.destinationPath('src/app/app.js'),
+                this.destinationPath('src/client/app/app.js'),
                 {
-                    ngapp: this.ngappname
+                    ngapp: this.config.get('ngappname')
                 }
-            );
+                );
             this.fs.copyTpl(
                 this.templatePath('app/layout/_shell.controller.js'),
-                this.destinationPath('src/app/layout/shell.controller.js'),
+                this.destinationPath('src/client/app/layout/shell.controller.js'),
                 {
-                    ngapp: this.ngappname
+                    ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/home/_home.controller.js'),
-                this.destinationPath('src/app/home/home.controller.js'),
+                this.destinationPath('src/client/app/features/home/home.controller.js'),
                 {
-                    ngapp: this.ngappname
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/home/_home.config.js'),
+                this.destinationPath('src/client/app/features/home/config/home.config.js'),
+                {
+                    ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/about/_about.controller.js'),
-                this.destinationPath('src/app/about/about.controller.js'),
+                this.destinationPath('src/client/app/features/about/about.controller.js'),
                 {
-                    ngapp: this.ngappname
+                    ngapp: this.config.get('ngappname')
                 });
+            this.fs.copyTpl(
+                this.templatePath('app/home/_routes.js'),
+                this.destinationPath('src/client/app/features/home/config/routes.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/home/_home.unit.test.js'),
+                this.destinationPath('src/client/app/features/home/test/unit/home.unit.test.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/home/_home.e2e.test.js'),
+                this.destinationPath('src/client/app/features/home/test/e2e/home.e2e.spec.js'));
+            this.fs.copyTpl(
+                this.templatePath('app/about/_routes.js'),
+                this.destinationPath('src/client/app/features/about/config/routes.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/about/_about.config.js'),
+                this.destinationPath('src/client/app/features/about/config/about.config.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/about/_about.unit.test.js'),
+                this.destinationPath('src/client/app/features/about/test/unit/about.unit.test.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/login/_login.controller.js'),
+                this.destinationPath('src/client/app/features/login/login.controller.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/login/_routes.js'),
+                this.destinationPath('src/client/app/features/login/config/routes.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/_authService.js'),
+                this.destinationPath('src/client/app/services/authService.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.fs.copyTpl(
+                this.templatePath('app/_menuService.js'),
+                this.destinationPath('src/client/app/services/menuService.js'),
+                {
+                    ngapp: this.config.get('ngappname')
+                });
+            this.copy('_karma.conf.js', 'karma.conf.js');
+            this.copy('_protractor-config.js', 'protractor-config.js');
+            
         },
 
-        html: function(){
+        html: function () {
+
             this.fs.copyTpl(
                 this.templatePath('_index.html'),
-                this.destinationPath('src/index.html'),
+                this.destinationPath('src/client/index.html'),
                 {
                     appname: _.startCase(this.appname),
-                    ngapp: this.ngappname
-                }
-            );
-            this.fs.copy(
-                this.templatePath('app/layout/_shell.html'),
-                this.destinationPath('src/app/layout/shell.html'));
+                    ngapp: this.config.get('ngappname'),
+                });
+
             this.fs.copy(
                 this.templatePath('app/home/_home.html'),
-                this.destinationPath('src/app/home/home.html'));
+                this.destinationPath('src/client/app/features/home/home.html'));
             this.fs.copy(
                 this.templatePath('app/about/_about.html'),
-                this.destinationPath('src/app/about/about.html'));
+                this.destinationPath('src/client/app/features/about/about.html'));
+            this.fs.copy(
+                this.templatePath('app/login/_login.html'),
+                this.destinationPath('src/client/app/features/login/login.html'));
+            this.fs.copyTpl(
+                this.templatePath('app/layout/_shell.html'),
+                this.destinationPath('src/client/app/layout/shell.html'));
         }
     },
-    conflicts: function(){
+    conflicts: function () {
     },
-    install: function(){
-    },
-    end: function(){
+    install: function () {
+        if (this.installPackages === 'Yes') {
+            this.installDependencies({
+                skipInstall: this.options['skip-install']
+            });
+        }
     }
 });
