@@ -17,7 +17,7 @@ module.exports = generators.Base.extend({
         this.prompt([{
             type: 'input',
             name: 'appname',
-            message: ' Name Your application .. ',
+            message: 'Name Your application .. ',
             default: this.config.get('appname') || 'app'
         },
             {
@@ -66,7 +66,7 @@ module.exports = generators.Base.extend({
             {
                 type: 'checkbox',
                 name: 'csslibs',
-                message: 'Which CSS framework would you like to use? ',
+                message: 'Select base CSS template framework.. ',
                 choices: [
                     {
                         name: 'BootStrap',
@@ -159,95 +159,86 @@ module.exports = generators.Base.extend({
 
         appStaticFiles: function () {
             this.copy('_favicon.ico', 'src/favicon.ico');
-            this.directory('styles', 'src/client/assets/css');
+            this.directory('styles', 'src/assets/css');
         },
 
         scripts: function () {
             this.fs.copyTpl(
                 this.templatePath('app/_app.js'),
-                this.destinationPath('src/client/app/app.js'),
+                this.destinationPath('src/app/app.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 }
                 );
             this.fs.copyTpl(
                 this.templatePath('app/layout/_shell.controller.js'),
-                this.destinationPath('src/client/app/layout/shell.controller.js'),
+                this.destinationPath('src/app/layout/shell.controller.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/home/_home.controller.js'),
-                this.destinationPath('src/client/app/features/home/home.controller.js'),
+                this.destinationPath('src/app/features/home/home.controller.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/home/_home.config.js'),
-                this.destinationPath('src/client/app/features/home/config/home.config.js'),
+                this.destinationPath('src/app/features/home/config/home.config.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/about/_about.controller.js'),
-                this.destinationPath('src/client/app/features/about/about.controller.js'),
+                this.destinationPath('src/app/features/about/about.controller.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/home/_routes.js'),
-                this.destinationPath('src/client/app/features/home/config/routes.js'),
+                this.destinationPath('src/app/features/home/config/routes.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
-            this.fs.copyTpl(
-                this.templatePath('app/home/_home.unit.test.js'),
-                this.destinationPath('src/client/app/features/home/test/unit/home.unit.test.js'),
-                {
-                    ngapp: this.config.get('ngappname')
-                });
-            this.fs.copyTpl(
-                this.templatePath('app/home/_home.e2e.test.js'),
-                this.destinationPath('src/client/app/features/home/test/e2e/home.e2e.spec.js'));
             this.fs.copyTpl(
                 this.templatePath('app/about/_routes.js'),
-                this.destinationPath('src/client/app/features/about/config/routes.js'),
+                this.destinationPath('src/app/features/about/config/routes.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/about/_about.config.js'),
-                this.destinationPath('src/client/app/features/about/config/about.config.js'),
+                this.destinationPath('src/app/features/about/config/about.config.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/about/_about.unit.test.js'),
-                this.destinationPath('src/client/app/features/about/test/unit/about.unit.test.js'),
+                this.destinationPath('src/app/features/about/test/unit/about.unit.test.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/login/_login.controller.js'),
-                this.destinationPath('src/client/app/features/login/login.controller.js'),
+                this.destinationPath('src/app/features/login/login.controller.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/login/_routes.js'),
-                this.destinationPath('src/client/app/features/login/config/routes.js'),
+                this.destinationPath('src/app/features/login/config/routes.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/_authService.js'),
-                this.destinationPath('src/client/app/services/authService.js'),
+                this.destinationPath('src/app/services/authService.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
             this.fs.copyTpl(
                 this.templatePath('app/_menuService.js'),
-                this.destinationPath('src/client/app/services/menuService.js'),
+                this.destinationPath('src/app/services/menuService.js'),
                 {
                     ngapp: this.config.get('ngappname')
                 });
@@ -260,7 +251,7 @@ module.exports = generators.Base.extend({
 
             this.fs.copyTpl(
                 this.templatePath('_index.html'),
-                this.destinationPath('src/client/index.html'),
+                this.destinationPath('src/index.html'),
                 {
                     appname: _.startCase(this.appname),
                     ngapp: this.config.get('ngappname'),
@@ -268,16 +259,16 @@ module.exports = generators.Base.extend({
 
             this.fs.copy(
                 this.templatePath('app/home/_home.html'),
-                this.destinationPath('src/client/app/features/home/home.html'));
+                this.destinationPath('src/app/features/home/home.html'));
             this.fs.copy(
                 this.templatePath('app/about/_about.html'),
-                this.destinationPath('src/client/app/features/about/about.html'));
+                this.destinationPath('src/app/features/about/about.html'));
             this.fs.copy(
                 this.templatePath('app/login/_login.html'),
-                this.destinationPath('src/client/app/features/login/login.html'));
+                this.destinationPath('src/app/features/login/login.html'));
             this.fs.copyTpl(
                 this.templatePath('app/layout/_shell.html'),
-                this.destinationPath('src/client/app/layout/shell.html'));
+                this.destinationPath('src/app/layout/shell.html'));
         }
     },
     conflicts: function () {
