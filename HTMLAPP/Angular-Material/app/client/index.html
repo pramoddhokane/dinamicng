@@ -8,14 +8,14 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="vendor/angular-material/angular-material.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/reset.css">
-    <link rel="stylesheet" href="styles/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/animate.css">
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="../assets/styles/reset.css">
+    <link rel="stylesheet" href="../assets/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/styles/animate.css">
+    <link rel="stylesheet" href="../assets/styles/main.css">
     <!-- endbuild -->
 </head>
 <body ng-app="angMaterialApp" layout="row" ng-controller="MainCtrl">
@@ -59,7 +59,7 @@
                     <span ng-if="menu.currentPage.name !== menu.currentSection.name">
               <span hide-sm hide-md>{{menu.currentSection.name}}</span>
               <span class="docs-menu-separator-icon" style="" hide-sm hide-md>
-                <img src="images/icons/docArrow.png" alt="" aria-hidden="true">
+                <img src="../assets/images/icons/docArrow.png" alt="" aria-hidden="true">
               </span>
             </span>
                     <span class="md-breadcrumb-page">{{(menu.currentPage | humanizeDoc) || 'Angular Material' }}</span>
@@ -103,26 +103,26 @@
 
 <!-- build:js(.) scripts/oldieshim.js -->
 <!--[if lt IE 9]>
-<script src="bower_components/es5-shim/es5-shim.js"></script>
-<script src="bower_components/json3/lib/json3.js"></script>
+<script src="vendor/es5-shim/es5-shim.js"></script>
+<script src="vendor/json3/lib/json3.js"></script>
 <![endif]-->
 <!-- endbuild -->
 
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-animate/angular-animate.js"></script>
-<script src="bower_components/angular-aria/angular-aria.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
-<script src="bower_components/angular-material/angular-material.js"></script>
-<script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="vendor/angular/angular.js"></script>
+<script src="vendor/angular-animate/angular-animate.js"></script>
+<script src="vendor/angular-aria/angular-aria.js"></script>
+<script src="vendor/angular-route/angular-route.js"></script>
+<script src="vendor/angular-material/angular-material.js"></script>
+<script src="vendor/angular-messages/angular-messages.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
-<script src="scripts/app.js"></script>
-<script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/about.js"></script>
+<script src="app.js"></script>
+<script src="features/about/about.controller.js"></script>
+<script src="features/main/main.controller.js"></script>
 <!-- endbuild -->
 </body>
 </html>
