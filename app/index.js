@@ -26,43 +26,43 @@ module.exports = generators.Base.extend({
                 message: 'Angular App Name (ng-app)',
                 default: this.config.get('ngappname') || 'app'
             },
-            {
-                type: 'checkbox',
-                name: 'jslibs',
-                message: 'Which JS libraries would you like to include?',
-                choices: [
-                    {
-                        name: 'lodash',
-                        value: 'lodash',
-                        checked: true
-                    },
-                    {
-                        name: 'Moment.js',
-                        value: 'momentjs',
-                        checked: true
-                    },
-                    {
-                        name: 'Angular-UI Utils',
-                        value: 'angularuiutils',
-                        checked: true
-                    },
-                    {
-                        name: 'angular-local-storage',
-                        value: 'angularLocalStorage',
-                        checked: true
-                    },
-                    {
-                        name: 'angular-translate',
-                        value: 'angularTranslate',
-                        checked: true
-                    },
-                    {
-                        name: 'angular-datatables',
-                        value: 'angularDatatable',
-                        checked: true
-                    }
-                ]
-            },
+            // {
+            //     type: 'checkbox',
+            //     name: 'jslibs',
+            //     message: 'Which JS libraries would you like to include?',
+            //     choices: [
+            //         {
+            //             name: 'lodash',
+            //             value: 'lodash',
+            //             checked: true
+            //         },
+            //         {
+            //             name: 'Moment.js',
+            //             value: 'momentjs',
+            //             checked: true
+            //         },
+            //         {
+            //             name: 'Angular-UI Utils',
+            //             value: 'angularuiutils',
+            //             checked: true
+            //         },
+            //         {
+            //             name: 'angular-local-storage',
+            //             value: 'angularLocalStorage',
+            //             checked: true
+            //         },
+            //         {
+            //             name: 'angular-translate',
+            //             value: 'angularTranslate',
+            //             checked: true
+            //         },
+            //         {
+            //             name: 'angular-datatables',
+            //             value: 'angularDatatable',
+            //             checked: true
+            //         }
+            //     ]
+            // },
             {
                 type: 'checkbox',
                 name: 'csslibs',
@@ -105,6 +105,7 @@ module.exports = generators.Base.extend({
             this.copy('_gulp.config.js', 'gulp.config.js');
             this.copy('gitignore', '.gitignore');
             this.copy('jshintrc', '.jshintrc');
+            
         },
 
         packageJSON: function () {
@@ -124,39 +125,43 @@ module.exports = generators.Base.extend({
             });
         },
 
-//         bower: function () {
-//             var bowerJson = {
-//                 name: this.appname,
-//                 license: 'MIT',
-//                 dependencies: {}
-//             };
-//             bowerJson.dependencies['angular'] = '~1.4.6';
-//             bowerJson.dependencies['angular-bootstrap'] = '~0.13.4';
-//             bowerJson.dependencies['angular-ui-router'] = '~0.2.15';
-//             bowerJson.dependencies['bootstrap-css-only'] = '~3.3.5';
-//             bowerJson.dependencies['angular-mocks'] = '~1.4.7';
-//             if (this.includeLodash) {
-//                 bowerJson.dependencies['lodash'] = '~3.10.1';
-//             }
-//             if (this.includeMoment) {
-//                 bowerJson.dependencies['moment'] = '~2.10.6';
-//             }
-//             if (this.includeAngularUIUtils) {
-//                 bowerJson.dependencies['angular-ui-utils'] = '~3.0.0';
-//             }
-//             if (this.includeAngularLocalStorage) {
-//                 bowerJson.dependencies['angular-local-storage'] = '~0.2.3';
-//             }
-//             if (this.includeAngularTranslate) {
-//                 bowerJson.dependencies['angular-translate'] = '~2.8.1';
-//             }
-//             if (this.includeAngularDatatable) {
-//                 bowerJson.dependencies['angular-datatables'] = '~0.5.3';
-//             }
-//             this.fs.writeJSON('bower.json', bowerJson);
-// 
-//             this.copy('bowerrc', '.bowerrc');
-//         },
+        bower: function () {
+            
+            
+            this.copy('_bower.json', 'bower.json');
+            this.copy('bowerrc', '.bowerrc');
+            
+            // var bowerJson = {
+            //     name: this.config.get('ngappname'),
+            //     license: 'MIT',
+            //     dependencies: {}
+            // };
+            // bowerJson.dependencies['angular'] = '~1.4.6';
+            // bowerJson.dependencies['angular-bootstrap'] = '~0.13.4';
+            // bowerJson.dependencies['angular-ui-router'] = '~0.2.15';
+            // bowerJson.dependencies['bootstrap-css-only'] = '~3.3.5';
+            // bowerJson.dependencies['angular-mocks'] = '~1.4.7';
+            // if (this.includeLodash) {
+            //     bowerJson.dependencies['lodash'] = '~3.10.1';
+            // }
+            // if (this.includeMoment) {
+            //     bowerJson.dependencies['moment'] = '~2.10.6';
+            // }
+            // if (this.includeAngularUIUtils) {
+            //     bowerJson.dependencies['angular-ui-utils'] = '~3.0.0';
+            // }
+            // if (this.includeAngularLocalStorage) {
+            //     bowerJson.dependencies['angular-local-storage'] = '~0.2.3';
+            // }
+            // if (this.includeAngularTranslate) {
+            //     bowerJson.dependencies['angular-translate'] = '~2.8.1';
+            // }
+            // if (this.includeAngularDatatable) {
+            //     bowerJson.dependencies['angular-datatables'] = '~0.5.3';
+            // }
+            //this.fs.writeJSON('bower.json', bowerJson);
+          
+        },
 
         appStaticFiles: function () {
             this.copy('_favicon.ico', 'src/favicon.ico');
