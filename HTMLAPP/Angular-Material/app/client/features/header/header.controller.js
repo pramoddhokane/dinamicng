@@ -8,14 +8,13 @@
     HeaderController.$inject = ['$scope'];
     function HeaderController($scope) {
         var vm = this;
-        
 
         activate();
 
         ////////////////
 
         function activate() {
-            vm.title = 'New Title';
+                     
          }
     }
 })();

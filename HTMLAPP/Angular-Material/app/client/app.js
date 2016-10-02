@@ -14,8 +14,8 @@ var app = angular
         'ngAria',
         'ngRoute',
         'ngMaterial',
-        'ngMessages',
-        'material.svgAssetsCache'
+        'ngMessages',       
+        'ui.router'
     ]);
 
 //app.config(function($mdThemingProvider) {
@@ -38,45 +38,45 @@ app.config(function ($routeProvider) {
             redirectTo: '/'
         });
 
-        
+
 });
-app.config(function($mdThemingProvider) {
-  $mdThemingProvider.theme('default').primaryPalette('indigo');
+app.config(function ($mdThemingProvider) {
+    // $mdThemingProvider.theme('default').primaryPalette('red');
 })
-app.directive('menuLink', function() {
+app.directive('menuLink', function () {
     return {
         scope: {
             section: '='
         },
         templateUrl: 'features/partials/menu-link.tmpl.html',
-        link: function($scope, $element) {
+        link: function ($scope, $element) {
             var controller = $element.parent().controller();
 
-            $scope.isSelected = function() {
+            $scope.isSelected = function () {
                 return controller.isSelected($scope.section);
             };
         }
     };
 });
 
-app.directive('menuToggle', function() {
+app.directive('menuToggle', function () {
     return {
         scope: {
             section: '='
         },
         templateUrl: 'features/partials/menu-toggle.tmpl.html',
-        link: function($scope, $element) {
+        link: function ($scope, $element) {
             var controller = $element.parent().controller();
 
-            $scope.isOpen = function() {
+            $scope.isOpen = function () {
                 return controller.isOpen($scope.section);
             };
-            $scope.toggle = function() {
+            $scope.toggle = function () {
                 controller.toggleOpen($scope.section);
             };
 
             var parentNode = $element[0].parentNode.parentNode.parentNode;
-            if(parentNode.classList.contains('parent-list-item')) {
+            if (parentNode.classList.contains('parent-list-item')) {
                 var heading = parentNode.querySelector('h2');
                 $element[0].firstChild.setAttribute('aria-describedby', heading.id);
             }
@@ -84,7 +84,7 @@ app.directive('menuToggle', function() {
     };
 });
 
-app.factory('menu', ['$location', '$rootScope', function($location, $rootScope){
+app.factory('menu', ['$location', '$rootScope', function ($location, $rootScope) {
 
     var sections = [{
         name: 'Home',
@@ -107,7 +107,7 @@ app.factory('menu', ['$location', '$rootScope', function($location, $rootScope){
 
     sections.push();
 
-    function sortByName(a,b) {
+    function sortByName(a, b) {
         return a.name < b.name ? -1 : 1;
     }
 
@@ -118,27 +118,27 @@ app.factory('menu', ['$location', '$rootScope', function($location, $rootScope){
     return self = {
         sections: sections,
 
-        selectSection: function(section) {
+        selectSection: function (section) {
             self.openedSection = section;
         },
-        toggleSelectSection: function(section) {
+        toggleSelectSection: function (section) {
             self.openedSection = (self.openedSection === section ? null : section);
         },
-        isSectionSelected: function(section) {
+        isSectionSelected: function (section) {
             return self.openedSection === section;
         },
 
-        selectPage: function(section, page) {
+        selectPage: function (section, page) {
             page && page.url && $location.path(page.url);
             self.currentSection = section;
             self.currentPage = page;
         },
-        isPageSelected: function(page) {
+        isPageSelected: function (page) {
             return self.currentPage === page;
         }
     };
 
-    function sortByHumanName(a,b) {
+    function sortByHumanName(a, b) {
         return (a.humanName < b.humanName) ? -1 :
             (a.humanName > b.humanName) ? 1 : 0;
     }
@@ -146,27 +146,27 @@ app.factory('menu', ['$location', '$rootScope', function($location, $rootScope){
     function onLocationChange() {
         var path = $location.path();
 
-        var matchPage = function(section, page) {
+        var matchPage = function (section, page) {
             if (path === page.url) {
                 self.selectSection(section);
                 self.selectPage(section, page);
             }
         };
 
-        sections.forEach(function(section) {
-            if(section.children) {
+        sections.forEach(function (section) {
+            if (section.children) {
                 // matches nested section toggles, such as API or Customization
-                section.children.forEach(function(childSection){
-                    if(childSection.pages){
-                        childSection.pages.forEach(function(page){
+                section.children.forEach(function (childSection) {
+                    if (childSection.pages) {
+                        childSection.pages.forEach(function (page) {
                             matchPage(childSection, page);
                         });
                     }
                 });
             }
-            else if(section.pages) {
+            else if (section.pages) {
                 // matches top-level section toggles, such as Demos
-                section.pages.forEach(function(page) {
+                section.pages.forEach(function (page) {
                     matchPage(section, page);
                 });
             }
@@ -179,12 +179,12 @@ app.factory('menu', ['$location', '$rootScope', function($location, $rootScope){
 }]);
 
 
-app.filter('humanizeDoc', function() {
-    return function(doc) {
+app.filter('humanizeDoc', function () {
+    return function (doc) {
         if (!doc) return;
         if (doc.type === 'directive') {
-            return doc.name.replace(/([A-Z])/g, function($1) {
-                return '-'+$1.toLowerCase();
+            return doc.name.replace(/([A-Z])/g, function ($1) {
+                return '-' + $1.toLowerCase();
             });
         }
         return doc.label || doc.name;
