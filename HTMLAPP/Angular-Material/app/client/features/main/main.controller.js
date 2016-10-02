@@ -7,7 +7,7 @@
  * # MainCtrl
  * Controller of the angMaterialApp
  */
-angular.module('angMaterialApp')
+angular.module(APP_MODULE_NAME)
     .controller('MainCtrl', ['$scope', '$mdSidenav', '$rootScope', '$timeout', 'menu', function ($scope, $mdSidenav, $rootScope, $timeout, menu) {
 
       $scope.menu = menu;

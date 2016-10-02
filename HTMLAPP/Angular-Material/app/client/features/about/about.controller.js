@@ -7,7 +7,7 @@
  * # AboutCtrl
  * Controller of the angMaterialApp
  */
-angular.module('angMaterialApp')
+angular.module(APP_MODULE_NAME)
   .controller('AboutCtrl', function ($scope) {
     $scope.awesomeThings = [
       $scope.patient = {

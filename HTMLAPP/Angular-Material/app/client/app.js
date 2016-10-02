@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 var app = angular
-    .module('angMaterialApp', [
+    .module(APP_MODULE_NAME, [
         'ngAnimate',
         'ngAria',
         'ngRoute',
@@ -36,6 +36,8 @@ app.config(function ($routeProvider) {
         .otherwise({
             redirectTo: '/'
         });
+
+        
 });
 
 app.directive('menuLink', function() {
