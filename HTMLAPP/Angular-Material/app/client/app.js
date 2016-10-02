@@ -14,7 +14,8 @@ var app = angular
         'ngAria',
         'ngRoute',
         'ngMaterial',
-        'ngMessages'
+        'ngMessages',
+        'material.svgAssetsCache'
     ]);
 
 //app.config(function($mdThemingProvider) {
@@ -39,7 +40,9 @@ app.config(function ($routeProvider) {
 
         
 });
-
+app.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default').primaryPalette('indigo');
+})
 app.directive('menuLink', function() {
     return {
         scope: {
