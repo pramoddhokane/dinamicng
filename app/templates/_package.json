@@ -5,7 +5,8 @@
     "main": "src/app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "postinstall":"./node_modules/.bin/webdriver-manager update"
+        "postinstall":"gulp server",
+        "start":"gulp server"
     },
     "author": "Pramod Dhokane",
     "license": "ISC",

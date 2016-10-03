@@ -7,7 +7,7 @@ var livereload = require('gulp-livereload');
 gulp.task('server', function () {
    
     plugins.nodemon({
-        script: './src/server/server.js', ext: 'js html', env: { 'NODE_ENV': 'development' }
+        script: './src/app/server/server.js', ext: 'js html', env: { 'NODE_ENV': 'development' }
         })
         .on('restart', function () {
            
