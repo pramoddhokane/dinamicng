@@ -1,0 +1,168 @@
+<div class="md-padding">
+    <h2>Patient details</h2>
+    <hr/>
+    <md-content class="md-padding">
+        <form name="userForm">
+            <div layout="row" layout-sm="column" layout-align-gt-md="space-between start">
+                <div class="form-group md-padding" flex="30"
+                     flex-sm="100">
+                    <label>Stroke Id</label>
+                    <input type="text" ng-model="patient.strokeId"
+                           class="form-control input-sm"/>
+                </div>
+                <div class="form-group md-padding" flex="30" flex-sm="100">
+                    <label>BHT No</label>
+                    <input type="text" ng-model="patient.bhtNo"
+                           class="form-control input-sm"/>
+                </div>
+                <div class="form-group md-padding" flex="30" flex-sm="100">
+                    <label>Hospital</label>
+                    <input type="text" ng-model="patient.hospital"
+                           class="form-control input-sm "/>
+                </div>
+            </div>
+
+            <div layout="row" layout-sm="column"
+                 layout-align-gt-md="space-between start">
+                <div class="form-group md-padding" flex="30" flex-sm="100">
+                    <label>Patient Name</label>
+                    <input type="text" ng-model="patient.name"
+                           name="patient_name"
+                           class="form-control input-sm" required
+                           ng-minlength='5' ng-maxlength='10'/>
+                </div>
+
+                <div class="form-group md-padding" flex="30" flex-sm="100">
+                    <label>Age</label>
+                    <input type="text" ng-model="patient.age"
+                           class="form-control input-sm"/>
+                </div>
+
+                <div class="form-group md-padding" flex="30" flex-sm="100">
+                    <label>DOB</label>
+                    <input type="text" ng-model="patient.dob"
+                           class="form-control input-sm" placeholder="dd-mm-yyyy"/>
+                </div>
+            </div>
+
+            <div layout="row" layout-sm="column"
+                 layout-align="space-between start">
+                <div class="form-group md-padding" flex="30" flex-sm="100">
+                    <label>NIC</label>
+                    <input type="text" ng-model="patient.nic"
+                           class="form-control input-sm"/>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div layout="row" layout-sm="column"
+                 layout-align="start start">
+                <div class="form-group md-padding" flex="30" flex-sm="100">
+                    <label>Sex</label>
+                    <div class="checkbox">
+                        <label class="radio-inline">
+                            <input type="radio" value="M"
+                                   ng-model="patient.sex">
+                            Male
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   value="F" ng-model="patient.sex">
+                            Female
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Marital Status</label>
+                    <div class="checkbox">
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   value="1" ng-model="patient.maritalStatus"> Single
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   value="2" ng-model="patient.maritalStatus">
+                            Married
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   value="3"
+                                   ng-model="patient.maritalStatus"> Widow
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   value="4"
+                                   ng-model="patient.maritalStatus"> Divorce
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="pregnant-status-check" ng-show="patient.sex == 'F'"
+                 layout="row"
+                 layout-sm="column"
+                 layout-align="start start">
+                <div class="form-group md-padding" flex="30"
+                     flex-sm="100">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="patient.pregnant">
+                            Currently pregnant or postpartum within 6 weeks
+                        </label>
+                    </div>
+
+                    <div class="pregnant-status" ng-show="patient.pregnant"
+                            style="padding-left: 10px;"><!-- Todo use ng-if to toggle this component -->
+                        <div class="radio">
+                            <label>
+                                <input type="radio"
+                                       value="1"
+                                       ng-model="patient.pregnant_status"> First
+                                trimester
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio"
+                                       value="2"
+                                       ng-model="patient.pregnant_status"> Second
+                                trimester
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio"
+                                       value="3"
+                                       ng-model="patient.pregnant_status"> Third
+                                trimester
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio"
+                                       value="4"
+                                       ng-model="patient.pregnant_status">
+                                Postpartum
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-sm="column"
+                 layout-align="start start">
+
+            </div>
+            <div class="form-group">
+                <md-input-container style="width:100px;">
+                    <md-button type="submit" class="md-raised md-primary">Save
+                    </md-button>
+                </md-input-container>
+            </div>
+        </form>
+    </md-content>
+</div>

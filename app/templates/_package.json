@@ -1,13 +1,14 @@
 {
-    "name": "base-app",
+    "name": "dynamic-ng-app",
     "version": "1.0.0",
     "description": "",
-    "main": "src/server/server.js",
+    "main": "src/app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "postinstall":"./node_modules/.bin/webdriver-manager update"
+        "postinstall":"gulp server",
+        "start":"gulp server"
     },
-    "author": "Salauddin",
+    "author": "Pramod Dhokane",
     "license": "ISC",
     "dependencies": {
         "connect": "^3.4.0",
@@ -42,6 +43,12 @@
         "gulp-protractor": "^1.0.0"
     },
     "devDependencies": {
-        "istanbul": "^0.4.3"
+        "istanbul": "^0.4.3",
+        "body-parser": "^1.15.2",
+        "cors": "^2.8.1",
+        "ejs": "^2.5.2",
+        "express": "^4.14.0",
+        "path": "^0.12.7",
+        "request": "^2.72.0"
     }
 }

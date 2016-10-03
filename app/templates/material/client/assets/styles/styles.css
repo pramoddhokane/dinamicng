@@ -1,0 +1,37 @@
+.toolbardemoScrollShrink .face {
+  width: 48px;
+  margin: 16px;
+  border-radius: 48px;
+  border: 1px solid #ddd; }
+
+
+.navBardemoBasicUsage md-content .ext-content {
+  padding: 50px;
+  margin: 20px;
+  background-color: #FFF2E0; }
+
+   md-whiteframe {
+            background: #fff;
+        }
+        
+        #content {
+            padding: 24px;
+        }
+        
+        .navBardemoBasicUsage md-content .ext-content {
+            padding: 50px;
+            margin: 20px;
+            background-color: #FFF2E0;
+        }
+        
+        .footer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 1rem;
+            background-color: #efefef;
+            text-align: center;
+        }
+
+  
